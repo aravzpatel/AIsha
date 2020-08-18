@@ -1,11 +1,12 @@
-* git clone https://github.com/aravzpatel/AIsha.git
-* npm install -g yarn
-* within aisha-app run `npm install`
-*
+* `git clone https://github.com/aravzpatel/AIsha.git`
+* `cd Aisha`
+* `npm install -g yarn`
+* `cd aisha-app`
+* `npm install`
+* ``npm run eject`` - maybe not as part of setup?
+* `npm run build`
 
-
-
-
+https://blog.learningdollars.com/2019/11/29/how-to-serve-a-reactapp-with-a-flask-server/
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
