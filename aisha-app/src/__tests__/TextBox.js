@@ -1,12 +1,15 @@
 import '@testing-library/jest-dom'
 import React from 'react'
-import {render, fireEvent, screen} from '@testing-library/react'
+import {render, fireEvent, screen, getByTestId} from '@testing-library/react'
 import TextBox from '../TextBox'
 
-test('changes the screen when the form is submitted', () => {
-  render(<TextBox></TextBox>)
+test('onSubmit is called when the form submits', () => {
+  const onSubmit = jest.fn() /* is a mock function */
+  const {getByLabelText } = render(<TextBox submit={onSubmit}/>);
+  
 
-  fireEvent.change(form, {target: {value: "I am having a fantastic day, thank you for asking"}})
+  fireEvent.change(getByLabelText("Input"), {target: {value: "I am having a fantastic day, thank you for asking"}})
   fireEvent.click(screen.getByText('Submit'))
-  expect(screen).toHaveTextContent("I'm thinking of a response")
+  console.log(screen)
+  expect(onSubmit).toHaveBeenCalled();
 })
