@@ -22,7 +22,9 @@ class Bot:
         return self.generate_response(polarity)
         
     def generate_response(self, polarity): 
-        if polarity > 0:
+        if polarity == 0:
+            return "Please provide a different answer"
+        elif polarity > 0:
             return random.choice(self.happy_response)
         else:
             return random.choice(self.sad_response)
