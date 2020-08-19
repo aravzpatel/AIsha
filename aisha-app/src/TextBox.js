@@ -19,11 +19,6 @@ class TextBox extends React.Component{
     this.props.submit();
   }
 
-  /* create a function onSubmit
-  - onSubmit triggers a state change
-  - state change triggers a re-render to include response testid
-  */
-
   render() {
     let response = null;
 
@@ -36,6 +31,7 @@ class TextBox extends React.Component{
         </div>
       )
     }
+    
     return(
       <div>
         <form onSubmit={this.onSubmit}>
