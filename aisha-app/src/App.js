@@ -1,12 +1,14 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
+import TextBox from './TextBox'
 
 function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <p>My Token = {window.token}</p>
+        <TextBox />
+        <p>AISHA APP Token = {window.token}</p>
         <img src={logo} className="App-logo" alt="logo" />
         <p>
           Edit <code>src/App.js</code> and save to reload.
