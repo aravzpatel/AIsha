@@ -9,13 +9,15 @@ def my_index():
 
 @app.route("/api/help", methods = ['POST'])
 def my_api_help():
-    user = request.form['user_text']
+    user = request.json['user_text']
     bot_response = Bot.analyse(Bot(), user)
     response = app.response_class(
         response=json.dumps(bot_response),
         status=200,
         mimetype='application/json'
+  
     )
+    print (response)
     return response
 
 app.run(debug=True)
