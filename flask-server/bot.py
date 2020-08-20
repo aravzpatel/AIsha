@@ -3,6 +3,9 @@ import random
 
 class Bot:
 
+    def __init__(self):
+        self.conversation = []
+
     happy_response = [
         "That's great!", 
         "Good to hear!",
@@ -19,8 +22,10 @@ class Bot:
         print("User Text:\n", user_text)
         polarity = TextBlob(user_text).sentiment.polarity
         print("Polarity:\n", polarity)
-        return self.generate_response(polarity)
-        
+        self.conversation.append(user_text)
+        self.conversation.append(self.generate_response(polarity))
+        return self.conversation
+
     def generate_response(self, polarity): 
         if polarity == 0:
             return "Please provide a different answer"

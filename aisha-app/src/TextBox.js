@@ -6,17 +6,12 @@ class TextBox extends React.Component{
     super(props)
   }
 
-  onSubmit(user_input) {
-    console.log(user_input)
-  }
-
   render() {
     return(
-      <form onSubmit={() => this.onSubmit(user_input)}>
-        <label>Input
-          <input type="text" name="user_input"></input>
-        </label>
-        <input type="submit" value="Submit"></input>
+      <form action = "http://localhost:5000/api/help" method = "post">
+         <p>Enter Text:</p>
+         <p><input type = "text" name = "user_text" /></p>
+         <p><input type = "submit" value = "submit" /></p>
       </form>
      );
   }

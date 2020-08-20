@@ -16,6 +16,8 @@ class BotTest(unittest.TestCase):
     def test_03_test_negative_response(self):
         self.assertIn(self.testBot.analyse("Sad"), self.testBot.sad_response) 
 
+    def test_04_new_bot_initialized_with_conversation(self):
+        self.assertEqual(self.testBot.conversation, [])
 
 if __name__ == "__main__":
     unittest.main()
