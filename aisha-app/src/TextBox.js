@@ -1,4 +1,5 @@
 import React from 'react';
+import axios from 'axios';
 
 class TextBox extends React.Component{
   constructor(props){
@@ -9,14 +10,24 @@ class TextBox extends React.Component{
     })
 
     this.onSubmit=this.onSubmit.bind(this);
+    this.responseHandle=this.responseHandle.bind(this);
   }
-
+  responseHandle(response) {
+    
+  }
   onSubmit(event){
     event.preventDefault();
-    this.setState({
-      formSubmit: true
+    axios.post('/api/help',{
+      user_input: 'I am having an awful day' 
     })
-    this.props.submit();
+    .then((response) => {
+      this.setState({
+        formSubmit: true,
+        response: response.data.response
+      })
+    })
+
+    // this.props.submit();
   }
 
   render() {
@@ -26,7 +37,7 @@ class TextBox extends React.Component{
       response = (
         <div>
           <p data-testid="response">
-            Thanks for letting me know
+            {this.state.response}
           </p>
         </div>
       )
