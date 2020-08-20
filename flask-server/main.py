@@ -5,7 +5,6 @@ app = Flask("__main__")
 
 @app.route("/")
 def my_index():
-    # self.AIshabot = Bot()
     return render_template("index.html", flask_token="Hello world")
 
 @app.route("/api/help", methods = ['POST'])
