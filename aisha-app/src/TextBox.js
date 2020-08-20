@@ -51,6 +51,7 @@ class TextBox extends React.Component{
     }
     
     return(
+
       <div>
         <form onSubmit={this.onSubmit}>
           <label>Input
@@ -60,6 +61,7 @@ class TextBox extends React.Component{
         </form>
         {response}
       </div>
+
      );
   }
 }

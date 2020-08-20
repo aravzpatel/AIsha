@@ -19,10 +19,12 @@ class Bot:
         print("User Text:\n", user_text)
         polarity = TextBlob(user_text).sentiment.polarity
         print("Polarity:\n", polarity)
-        return self.generate_response(polarity)
-        
+        return {'user_text': user_text, 'bot_response': self.generate_response(polarity)}
+
     def generate_response(self, polarity): 
-        if polarity > 0:
+        if polarity == 0:
+            return "Please provide a different answer"
+        elif polarity > 0:
             return random.choice(self.happy_response)
         else:
             return random.choice(self.sad_response)
