@@ -72,53 +72,29 @@ if __name__ == "__main__":
 
   joy = open('./emotions/joy.csv', 'r')
   anger = open('./emotions/anger.csv', 'r')
-  disgust = open('./emotions/disgust.csv', 'r')
-  guilt = open('./emotions/guilt.csv', 'r')
   sadness = open('./emotions/sadness.csv', 'r')
-  shame = open('./emotions/shame.csv', 'r')
   fear = open('./emotions/fear.csv', 'r')
 
+  def create_tokens(raw_csv, output_token):
+    with raw_csv as csvfile:
+      reader = csv.reader(csvfile)
+      for row in reader:
+        output_token += [nltk.word_tokenize(row[0])]
+
   joy_token = []
-  with joy as csvfile:
-    reader = csv.reader(csvfile)
-    for row in reader:
-        joy_token += [nltk.word_tokenize(row[0])]
+  create_tokens(joy, joy_token)
+
 
   anger_token = []
-  with anger as csvfile:
-    reader = csv.reader(csvfile)
-    for row in reader:
-        anger_token += [nltk.word_tokenize(row[0])]
+  create_tokens(anger, anger_token)
 
-  disgust_token = []
-  with disgust as csvfile:
-    reader = csv.reader(csvfile)
-    for row in reader:
-        disgust_token += [nltk.word_tokenize(row[0])]
-
-  guilt_token = []
-  with guilt as csvfile:
-    reader = csv.reader(csvfile)
-    for row in reader:
-        guilt_token += [nltk.word_tokenize(row[0])]
-
+ 
   sadness_token = []
-  with sadness as csvfile:
-    reader = csv.reader(csvfile)
-    for row in reader:
-        sadness_token += [nltk.word_tokenize(row[0])]
-  
-  shame_token = []
-  with shame as csvfile:
-    reader = csv.reader(csvfile)
-    for row in reader:
-        shame_token += [nltk.word_tokenize(row[0])]
+  create_tokens(sadness, sadness_token)
+
   
   fear_token = []
-  with fear as csvfile:
-    reader = csv.reader(csvfile)
-    for row in reader:
-        fear_token += [nltk.word_tokenize(row[0])]
+  create_tokens(fear, fear_token)
 
 
   joy_cleaned_tokens_list = []
@@ -129,21 +105,9 @@ if __name__ == "__main__":
   for tokens in anger_token:
       anger_cleaned_tokens_list.append(remove_noise(tokens, stop_words))  
   
-  disgust_cleaned_tokens_list = []
-  for tokens in disgust_token:
-      disgust_cleaned_tokens_list.append(remove_noise(tokens, stop_words))  
-  
-  guilt_cleaned_tokens_list = []
-  for tokens in guilt_token:
-      guilt_cleaned_tokens_list.append(remove_noise(tokens, stop_words))  
-  
   sadness_cleaned_tokens_list = []
   for tokens in sadness_token:
       sadness_cleaned_tokens_list.append(remove_noise(tokens, stop_words))
-
-  shame_cleaned_tokens_list = []
-  for tokens in shame_token:
-      shame_cleaned_tokens_list.append(remove_noise(tokens, stop_words))
 
   fear_cleaned_tokens_list = []
   for tokens in fear_token:
@@ -152,10 +116,7 @@ if __name__ == "__main__":
 
   joy_tokens_for_model = get_tokens_for_model(joy_cleaned_tokens_list)
   anger_tokens_for_model = get_tokens_for_model(anger_cleaned_tokens_list)
-  disgust_tokens_for_model = get_tokens_for_model(disgust_cleaned_tokens_list)
-  guilt_tokens_for_model = get_tokens_for_model(guilt_cleaned_tokens_list)
   sadness_tokens_for_model = get_tokens_for_model(sadness_cleaned_tokens_list)
-  shame_tokens_for_model = get_tokens_for_model(shame_cleaned_tokens_list)
   fear_tokens_for_model = get_tokens_for_model(fear_cleaned_tokens_list)
 
   joy_dataset = [(joy_dict, "Joy")
@@ -164,22 +125,12 @@ if __name__ == "__main__":
   anger_dataset = [(anger_dict, "Anger")
                   for anger_dict in anger_tokens_for_model]
 
-  # disgust_dataset = [(disgust_dict, "Disgust")
-  #                 for disgust_dict in disgust_tokens_for_model]
-
-  # guilt_dataset = [(guilt_dict, "Guilt")
-  #                 for guilt_dict in guilt_tokens_for_model]
-
   sadness_dataset = [(sadness_dict, "Sadness")
                   for sadness_dict in sadness_tokens_for_model]
-
-  # shame_dataset = [(shame_dict, "Shame")
-  #                 for shame_dict in shame_tokens_for_model]
 
   fear_dataset = [(fear_dict, "Fear")
                   for fear_dict in fear_tokens_for_model]
 
-  # dataset = joy_dataset + anger_dataset + disgust_dataset + guilt_dataset + sadness_dataset + shame_dataset + fear_dataset
   dataset = joy_dataset + anger_dataset + sadness_dataset + fear_dataset
 
   random.shuffle(dataset)
