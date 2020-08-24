@@ -1,3 +1,18 @@
+## AIsha
+
+Artificial
+Intelligence
+Self
+Help
+App
+
+**Contributors**
+[Arav Patel](https://github.com/aravzpatel)  
+[Stuart Pitcher](https://github.com/stupot1)
+[Alex Klink](https://github.com/04alexklink)
+[Joanne Chen](https://github.com/Joanne0330)
+UI Design: _ _ _ _ _ _ 
+
 * `git clone https://github.com/aravzpatel/AIsha.git`
 * `cd Aisha`
 * `npm install -g yarn`
@@ -5,6 +20,22 @@
 * `npm install`
 * ``npm run eject`` - maybe not as part of setup?
 * `npm run build`
+
+# To run the app from terminal:
+```
+cd aisha-app
+npm run build
+cd ..
+cd flask-server
+python3 main.py
+```
+
+# To run frontend test:
+```
+cd aisha-app
+npm test
+```
+
 
 https://blog.learningdollars.com/2019/11/29/how-to-serve-a-reactapp-with-a-flask-server/
 
