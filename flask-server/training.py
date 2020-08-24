@@ -164,27 +164,28 @@ if __name__ == "__main__":
   anger_dataset = [(anger_dict, "Anger")
                   for anger_dict in anger_tokens_for_model]
 
-  disgust_dataset = [(disgust_dict, "Disgust")
-                  for disgust_dict in disgust_tokens_for_model]
+  # disgust_dataset = [(disgust_dict, "Disgust")
+  #                 for disgust_dict in disgust_tokens_for_model]
 
-  guilt_dataset = [(guilt_dict, "Guilt")
-                  for guilt_dict in guilt_tokens_for_model]
+  # guilt_dataset = [(guilt_dict, "Guilt")
+  #                 for guilt_dict in guilt_tokens_for_model]
 
   sadness_dataset = [(sadness_dict, "Sadness")
                   for sadness_dict in sadness_tokens_for_model]
 
-  shame_dataset = [(shame_dict, "Shame")
-                  for shame_dict in shame_tokens_for_model]
+  # shame_dataset = [(shame_dict, "Shame")
+  #                 for shame_dict in shame_tokens_for_model]
 
   fear_dataset = [(fear_dict, "Fear")
                   for fear_dict in fear_tokens_for_model]
 
-  dataset = joy_dataset + anger_dataset + disgust_dataset + guilt_dataset + sadness_dataset + shame_dataset + fear_dataset
+  # dataset = joy_dataset + anger_dataset + disgust_dataset + guilt_dataset + sadness_dataset + shame_dataset + fear_dataset
+  dataset = joy_dataset + anger_dataset + sadness_dataset + fear_dataset
 
   random.shuffle(dataset)
 
-  train_data = dataset[:5367]
-  test_data = dataset[5367:]
+  train_data = dataset[:3067]
+  test_data = dataset[3067:]
 
   classifier = NaiveBayesClassifier.train(train_data)
   print("Accuracy is:", classify.accuracy(classifier, test_data))
@@ -194,6 +195,14 @@ if __name__ == "__main__":
   custom_message = "It's our last week and I'm scared to see what the next phase of our journey has to offer"
   custom_tokens = remove_noise(word_tokenize(custom_message))
 
-  print(classifier.prob_classify(dict([token, True] for token in custom_tokens)))
+  dist = classifier.prob_classify(dict([token, True] for token in custom_tokens))
+  
+
+  print("This is our message: " + custom_message)
+
+  print("Outcome distribution")
+  for label in dist.samples():
+    print("%s: %f" % (label, dist.prob(label)))
+
   print("----")
-  print(classifier.classify(dict([token, True] for token in custom_tokens)))
+  print("Overriding emotion: " + classifier.classify(dict([token, True] for token in custom_tokens)))
