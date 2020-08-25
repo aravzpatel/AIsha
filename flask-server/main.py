@@ -4,13 +4,13 @@ from flask_login import login_required, current_user, login_user, logout_user, L
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_sqlalchemy import SQLAlchemy
 
-POSTGRES = {
-    'user': 'makersadmin',
-    'pw': 'Admin@Makers',
-    'db': 'aisha_test',
-    'host': 'localhost',
-    'port': '5432',
-}
+# POSTGRES = {
+#     'user': 'makersadmin',
+#     'pw': 'Admin@Makers',
+#     'db': 'aisha_test',
+#     'host': 'localhost',
+#     'port': '5432',
+# }
 
 app = Flask(__name__)
 
