@@ -25,13 +25,12 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy()
 db.init_app(app)
 
-
 login_manager = LoginManager()
 login_manager.login_view = 'login'
 login_manager.init_app(app)
 
 # from models import User
-import models
+# import models
 
 class User(UserMixin, db.Model):
     __tablename__ = 'users'
@@ -58,7 +57,6 @@ def my_api_help():
         status=200,
         mimetype='application/json'
     )
-    print (response)
     return response
 
 @app.route('/profile')

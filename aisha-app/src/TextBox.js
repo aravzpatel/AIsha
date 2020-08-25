@@ -29,8 +29,9 @@ class TextBox extends React.Component{
     .then((response) => {
       this.setState({
         formSubmit: true,
-        response: response.data[1]
+        response: response.data['bot_response']
       })
+
     })
     .catch(function (error) {
       console.log(error);

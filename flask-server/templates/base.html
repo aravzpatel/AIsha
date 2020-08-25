@@ -24,8 +24,8 @@
                                 Home
                             </a>
                             {% if current_user.is_authenticated %}
-                            <a href="{{ url_for('profile') }}" class="navbar-item">
-                                Profile
+                            <a href="{{ url_for('index') }}" class="navbar-item">
+                                Chat
                             </a>
                             {% endif %}
                             {% if not current_user.is_authenticated %}
