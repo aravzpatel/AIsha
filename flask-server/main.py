@@ -65,6 +65,7 @@ def my_api_help():
         response=json.dumps(bot_response),
         status=200,
         mimetype='application/json'
+  
     )
     # print(current_user.id)
 
