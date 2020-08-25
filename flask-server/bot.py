@@ -1,6 +1,7 @@
 from textblob import TextBlob
 import random
 from training import Analysis
+from types import SimpleNamespace
 
 class Bot:
 
@@ -28,9 +29,20 @@ class Bot:
         "Buckle up"
     ]
 
+    def find_highest_emotion(self, emotions):
+        score = 0
+        final_emotion = ''
+        for emotion in emotions.__dict__:
+            if emotions.__dict__[emotion] > score:
+                final_emotion = emotion
+                score = emotions.__dict__[emotion]
+            
+        return final_emotion
+
     def analyse(self, user_text):
         print("User Text:\n", user_text)
-        emotion = Analysis.get_emotion(Analysis(), user_text)
+        emotions = Analysis.get_emotion(Analysis(), user_text)
+        emotion = self.find_highest_emotion(emotions)
         print("Emotion:\n", emotion)
         return {'user_text': user_text, 'bot_response': self.generate_response(emotion)}
 

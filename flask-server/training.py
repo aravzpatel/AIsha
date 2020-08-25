@@ -1,15 +1,9 @@
-import csv
-import nltk
+import csv, nltk, re, string, random
 from csv import reader
-from nltk import tokenize
+from nltk import tokenize, classify, NaiveBayesClassifier
 from nltk.tag import pos_tag
 from nltk.stem.wordnet import WordNetLemmatizer
-import re, string
 from nltk.corpus import stopwords
-from nltk import FreqDist
-import random
-from nltk import classify
-from nltk import NaiveBayesClassifier
 from nltk.tokenize import word_tokenize
 from datetime import datetime
 from types import SimpleNamespace
@@ -148,7 +142,11 @@ class Analysis:
     for label in score.samples():
       setattr(score.percentages, label, score.prob(label))
     
+    print(nltk.classify.accuracy(classifier, test_data))
+
     print(score.percentages)
+
+    
 
       # print("%s: %f" % (label, dist.prob(label)))
     
