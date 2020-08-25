@@ -12,7 +12,7 @@ from nltk import classify
 from nltk import NaiveBayesClassifier
 from nltk.tokenize import word_tokenize
 from datetime import datetime
-import pandas as pd
+from types import SimpleNamespace
 
 class Analysis:
   def lemmatize_sentence(tokens):
@@ -141,26 +141,15 @@ class Analysis:
     classifier = NaiveBayesClassifier.train(train_data)
 
     custom_tokens = self.remove_noise(word_tokenize(message))
-    response = classifier.classify(dict([token, True] for token in custom_tokens))
+
+    score = classifier.prob_classify(dict([token, True] for token in custom_tokens))
+
+    score.percentages = SimpleNamespace()
+    for label in score.samples():
+      setattr(score.percentages, label, score.prob(label))
     
-    print(response)
-    return response
+    print(score.percentages)
 
-
-    # print("Accuracy is:", classify.accuracy(classifier, test_data))
+      # print("%s: %f" % (label, dist.prob(label)))
     
-    # print(classifier.show_most_informative_features(10))
-      
-    # custom_message = "It's our last week and I'm scared to see what the next phase of our journey has to offer"
-    # custom_tokens = remove_noise(word_tokenize(custom_message))
-
-    # dist = classifier.prob_classify(dict([token, True] for token in custom_tokens))
-    
-    # print("This is our message: " + custom_message)
-
-    # print("Outcome distribution")
-    # for label in dist.samples():
-    #   print("%s: %f" % (label, dist.prob(label)))
-
-    # print("----")
-    # print("Overriding emotion: " + classifier.classify(dict([token, True] for token in custom_tokens)))
+    return score.percentages
