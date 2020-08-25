@@ -3,6 +3,7 @@ from bot import Bot
 from flask_login import login_required, current_user, login_user, logout_user, LoginManager, UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_sqlalchemy import SQLAlchemy
+from datetime import date
 
 # POSTGRES = {
 #     'user': 'makersadmin',
@@ -40,6 +41,13 @@ class User(UserMixin, db.Model):
     password = db.Column(db.String(100))
     name = db.Column(db.String(1000))
 
+class Moodscores(db.Model):
+    __tablename__ = 'moodscores'
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id')) #link this to user table
+    date = db.Column(db.Date) #check if that is data format
+    moodscore = db.Column(db.JSON)
+
 @login_manager.user_loader
 def load_user(user_id):
     # since the user_id is just the primary key of our user table, use it in the query for the user
@@ -58,6 +66,16 @@ def my_api_help():
         status=200,
         mimetype='application/json'
     )
+    # print(current_user.id)
+
+    moodscore = {"Anger":0.035714590696088365, "Fear":0.007142911960008929, "Joy":0.9214267340638829, "Sadness":0.03571576328001969}
+
+    new_moodscore = Moodscores(user_id=current_user.id, date=date.today(), moodscore=moodscore)
+
+    # add the new user to the database
+    db.session.add(new_moodscore)
+    db.session.commit()
+
     return response
 
 @app.route('/profile')
@@ -77,7 +95,7 @@ def login_post():
     remember = True if request.form.get('remember') else False
 
     user = User.query.filter_by(email=email).first()
-
+    
     # check if user actually exists
     # take the user supplied password, hash it, and compare it to the hashed password in database
     if not user or not check_password_hash(user.password, password): 
