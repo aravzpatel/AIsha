@@ -1,12 +1,12 @@
-from flask import (Blueprint, Flask, render_template, request, json, redirect, url_for, flash)
+from flask import (Flask, render_template, request, json, redirect, url_for, flash)
 from bot import Bot
 from flask_login import login_required, current_user, login_user, logout_user, LoginManager, UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_sqlalchemy import SQLAlchemy
 
 POSTGRES = {
-    'user': 'postgres',
-    'pw': '123',
+    'user': 'makersadmin',
+    'pw': 'Admin@Makers',
     'db': 'aisha_test',
     'host': 'localhost',
     'port': '5432',
@@ -18,8 +18,9 @@ app.config['DEBUG'] = True
 
 app.config['SECRET_KEY'] = '9OLWxND4o83j4K4iuopO'
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://%(user)s:\
-%(pw)s@%(host)s:%(port)s/%(db)s' % POSTGRES
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://hzlkhsyj:qyEtuquP76Rh_nRn16uXpf2xsiv0WkvQ@dumbo.db.elephantsql.com:5432/hzlkhsyj'
+# app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://%(user)s:\
+# %(pw)s@%(host)s:%(port)s/%(db)s' % POSTGRES
 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy()
@@ -84,7 +85,7 @@ def login_post():
         return redirect(url_for('login')) # if user doesn't exist or password is wrong, reload the page
 
     # if the above check passes, then we know the user has the right credentials
-    login_user(user, remember=remember)
+    login_user(user)
     return redirect(url_for('profile')) #NEEDS TO REDIRECT TO CHAT WINDOW (INDEX.HTML)
 
 @app.route('/signup')
@@ -110,8 +111,9 @@ def signup_post():
     # add the new user to the database
     db.session.add(new_user)
     db.session.commit()
-
-    return redirect(url_for('login'))
+    user = User.query.filter_by(email=email).first()
+    login_user(user)
+    return redirect(url_for('profile'))
 
 @app.route('/logout')
 @login_required
