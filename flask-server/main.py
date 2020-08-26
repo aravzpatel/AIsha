@@ -82,6 +82,8 @@ def my_api_help():
 @app.route('/profile')
 @login_required
 def profile():
+    moodscore_history = Moodscores.query.filter_by(user_id=current_user.id).all()
+    print(moodscore_history[0].moodscore['Fear'])
     return render_template('profile.html', name=current_user.name)
 
 @app.route('/login')
