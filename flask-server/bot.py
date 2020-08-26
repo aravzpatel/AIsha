@@ -44,7 +44,7 @@ class Bot:
         emotions = Analysis.get_emotion(Analysis(), user_text)
         emotion = self.find_highest_emotion(emotions)
         print("Emotion:\n", emotion)
-        return {'user_text': user_text, 'bot_response': self.generate_response(emotion)}
+        return {'user_text': user_text, 'bot_response': self.generate_response(emotion), 'moodscore': vars(emotions)}
 
     def generate_response(self, emotion): 
         if emotion == 'Joy':
