@@ -4,6 +4,8 @@ from flask_login import login_required, current_user, login_user, logout_user, L
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_sqlalchemy import SQLAlchemy
 from datetime import date
+from flask_cors import CORS
+
 
 # POSTGRES = {
 #     'user': 'makersadmin',
@@ -14,6 +16,7 @@ from datetime import date
 # }
 
 app = Flask(__name__)
+CORS(app)
 
 app.config['DEBUG'] = True
 
