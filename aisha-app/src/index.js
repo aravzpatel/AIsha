@@ -1,12 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import TextBox from './TextBox';
 import * as serviceWorker from './serviceWorker';
+import ChatAgent from './Chatagent';
 
 ReactDOM.render(
   <React.StrictMode>
-    <TextBox />
+    <ChatAgent />
   </React.StrictMode>,
   document.getElementById('root')
 );
