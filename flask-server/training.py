@@ -7,6 +7,7 @@ from nltk.corpus import stopwords
 from nltk.tokenize import word_tokenize
 from datetime import datetime
 from types import SimpleNamespace
+import json
 
 class Analysis:
   def lemmatize_sentence(tokens):
@@ -72,9 +73,8 @@ class Analysis:
         reader = csv.reader(csvfile)
         for row in reader:
           output_token += [nltk.word_tokenize(row[0])]
-  
-  @staticmethod
-  def get_emotion(self, message):
+
+  def process_data():
     joy = open('./emotions/joy.csv', 'r')
     anger = open('./emotions/anger.csv', 'r')
     sadness = open('./emotions/sadness.csv', 'r')
@@ -127,27 +127,31 @@ class Analysis:
     
     dataset = joy_dataset + anger_dataset + sadness_dataset + fear_dataset
 
-    random.shuffle(dataset)
+    with open('data.txt', 'w') as outfile:
+        json.dump(dataset, outfile)
+  
+  @staticmethod
+  def get_emotion(self, message):
+    with open('data.txt') as json_file:
+        dataset = json.load(json_file)
 
-    train_data = dataset[:3067]
-    test_data = dataset[3067:]
+        random.shuffle(dataset)
+
+        train_data = dataset[:3067]
+        test_data = dataset[3067:]
     
-    classifier = NaiveBayesClassifier.train(train_data)
+        classifier = NaiveBayesClassifier.train(train_data)
 
-    custom_tokens = self.remove_noise(word_tokenize(message))
+        custom_tokens = self.remove_noise(word_tokenize(message))
 
-    score = classifier.prob_classify(dict([token, True] for token in custom_tokens))
+        score = classifier.prob_classify(dict([token, True] for token in custom_tokens))
 
-    score.percentages = SimpleNamespace()
-    for label in score.samples():
-      setattr(score.percentages, label, score.prob(label))
+        score.percentages = SimpleNamespace()
+        for label in score.samples():
+            setattr(score.percentages, label, score.prob(label))
     
-    print(nltk.classify.accuracy(classifier, test_data))
+        print(nltk.classify.accuracy(classifier, test_data))
 
-    print(score.percentages)
-
+        print(score.percentages)
     
-
-      # print("%s: %f" % (label, dist.prob(label)))
-    
-    return score.percentages
+        return score.percentages
