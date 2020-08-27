@@ -72,9 +72,24 @@ def my_api_help():
     return response
 
 @app.route('/profile')
-@login_required
+# @login_required ADD THIS BACK IN BY UNCOMMENTING
 def profile():
-    return render_template('profile.html', name=current_user.name)
+    moodscore_history = Moodscores.query.filter_by(user_id=1).all()
+    json_contents = []
+
+    for x in moodscore_history:
+        obj_contents = {'day': x.date.day, 'month': x.date.month, 'year': x.date.year, 'moodscore': x.moodscore}
+        json_contents.append(obj_contents)
+
+    # json_contents = {'error': True, 'data':'Please check your login details and try again.'}
+    response = app.response_class(
+            response=json.dumps(json_contents),
+            status=200,
+            mimetype='application/json'
+        )
+    return response
+    
+    #return render_template('profile.html', name="stu"")
 
 @app.route('/login')
 def login():
