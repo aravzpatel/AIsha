@@ -1,4 +1,3 @@
-from textblob import TextBlob
 import random
 from training import Analysis
 from types import SimpleNamespace
