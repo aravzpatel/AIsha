@@ -3,7 +3,7 @@ python:
   - "3.8"
 before_script: 
   - cd flask-server
-  - python -m nltk.downloader all
+  - python -m nltk.downloader punkt
 # command to install dependencies
 install:
   - pip install -r flask-server/requirements.txt
