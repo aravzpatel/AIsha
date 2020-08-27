@@ -4,6 +4,7 @@ import Welcome from './Welcome';
 import Container from 'react-bootstrap/Container'
 import './App.scss'
 import ChatAgent from './ChatAgent';
+import LoginSignUp from './loginsignup'
 
 class App extends React.Component{
   constructor(props){
@@ -14,6 +15,7 @@ class App extends React.Component{
       chat: false
     }
     this.changeWelcome=this.changeWelcome.bind(this)
+    this.changeLogin = this.changeLogin.bind(this)
   }
 
   changeWelcome(){
@@ -22,15 +24,28 @@ class App extends React.Component{
     })
   }
 
+  changeLogin(){
+    this.setState({
+      chat:true
+    })
+  }
+
   render(){
     let welcome = (
       <Welcome onClick={this.changeWelcome} />
     )
-
+    let loginsignup = null;
     let chatagent = null;
 
     if(this.state.welcome===false){
       welcome = null;
+      loginsignup = (
+        <LoginSignUp success={this.changeLogin} />
+      )
+    }
+
+    if(this.state.chat===true){
+      loginsignup = null;
       chatagent = (
         <ChatAgent />
       )
@@ -39,6 +54,7 @@ class App extends React.Component{
     return(
       <Container>
         {welcome}
+        {loginsignup}
         {chatagent}
       </Container>
     )
