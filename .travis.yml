@@ -1,0 +1,9 @@
+language: python
+python:
+  - "3.8"
+# command to install dependencies
+install:
+  - pip install -r flask-server/requirements.txt
+# command to run tests
+script:
+  - python flask-server/bot-tests.py

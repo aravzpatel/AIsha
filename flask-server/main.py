@@ -61,7 +61,7 @@ def my_api_help():
   
     )
 
-    print(emotion_response['moodscore'])
+    #print(emotion_response['moodscore'])
     # moodscore = {"Anger":0.035714590696088365, "Fear":0.007142911960008929, "Joy":0.9214267340638829, "Sadness":0.03571576328001969}
     moodscore = emotion_response['moodscore']
     new_moodscore = Moodscores(user_id=current_user.id, date=date.today(), moodscore=moodscore)
@@ -75,9 +75,10 @@ def my_api_help():
 @app.route('/profile')
 # @login_required ADD THIS BACK IN BY UNCOMMENTING
 def profile():
-    moodscore_history = Moodscores.query.filter_by(current_user.id).all()
-    json_contents = []
 
+    moodscore_history = Moodscores.query.filter_by(user_id=current_user.id).all()
+    json_contents = []
+    
     for x in moodscore_history:
         obj_contents = {'day': x.date.day, 'month': x.date.month, 'year': x.date.year, 'moodscore': x.moodscore}
         json_contents.append(obj_contents)
@@ -89,8 +90,6 @@ def profile():
             mimetype='application/json'
         )
     return response
-    
-    #return render_template('profile.html', name="stu"")
 
 @app.route('/login')
 def login():
@@ -119,6 +118,7 @@ def login_post():
 
     # if the above check passes, then we know the user has the right credentials
     login_user(user)
+    
     json_contents = {'error': False, 'data': user.name + " Logged In Successfully"}
 
     response = app.response_class(
@@ -139,7 +139,6 @@ def signup_post():
     email = request.json['email']
     password = request.json['password']
 
-    print(name)
     user = User.query.filter_by(email=email).first() # if this returns a user, then the email already exists in database
 
     if user: # if a user is found, we want to redirect back to signup page so user can try again  
