@@ -64,7 +64,7 @@ def my_api_help():
     print(emotion_response['moodscore'])
     # moodscore = {"Anger":0.035714590696088365, "Fear":0.007142911960008929, "Joy":0.9214267340638829, "Sadness":0.03571576328001969}
     moodscore = emotion_response['moodscore']
-    new_moodscore = Moodscores(user_id=1, date=date.today(), moodscore=moodscore)
+    new_moodscore = Moodscores(user_id=current_user.id, date=date.today(), moodscore=moodscore)
 
     # add the new user to the database
     db.session.add(new_moodscore)
@@ -75,7 +75,7 @@ def my_api_help():
 @app.route('/profile')
 # @login_required ADD THIS BACK IN BY UNCOMMENTING
 def profile():
-    moodscore_history = Moodscores.query.filter_by(user_id=1).all()
+    moodscore_history = Moodscores.query.filter_by(current_user.id).all()
     json_contents = []
 
     for x in moodscore_history:
