@@ -76,6 +76,7 @@ def my_api_help():
 @app.route('/profile', methods = ['POST'])
 # @login_required ADD THIS BACK IN BY UNCOMMENTING
 def profile():
+    print(request.json)
     user_id = request.json['user_id']
     print("We are in the post request")
     print(user_id)
@@ -175,7 +176,7 @@ def signup_post():
     return response
  
 
-@app.route('/logout')
+@app.route('/logout', methods=['POST'])
 @login_required
 def logout():
     logout_user()
