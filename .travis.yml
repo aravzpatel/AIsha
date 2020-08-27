@@ -1,0 +1,15 @@
+language: python
+python:
+  - "3.8"
+before_script: 
+  - cd flask-server
+  - python -m nltk.downloader punkt
+  - python -m nltk.downloader stopwords
+  - python -m nltk.downloader averaged_perceptron_tagger
+  - python -m nltk.downloader wordnet
+# command to install dependencies
+install:
+  - pip install -r flask-server/requirements.txt
+# command to run tests
+script:
+  - python bot-tests.py
