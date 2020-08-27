@@ -35,7 +35,7 @@ class LoginSignUp extends Component {
     var name = this.state.name
     var password = this.state.password
     
-    axios.post('http://127.0.0.1:5000/signup',{
+    axios.post('/signup',{
       email: email,
       name: name,
       password: password
@@ -64,7 +64,7 @@ class LoginSignUp extends Component {
     var email = this.state.email
     var password = this.state.password
     
-    axios.post('http://127.0.0.1:5000/login',{
+    axios.post('/login',{
       email: email,
       password: password
     })

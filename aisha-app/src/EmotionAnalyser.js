@@ -19,7 +19,7 @@ class EmotionAnalyser extends Component {
   componentDidMount() {
     this._isMounted = true
     var user_input = this.props.previousStep.message
-    axios.post('http://127.0.0.1:5000/api/help',{
+    axios.post('/api/help',{
       user_text: user_input 
     })
     .then((response) => {
