@@ -72,11 +72,12 @@ def my_api_help():
 
     return response
 
-@app.route('/profile')
+@app.route('/profile', methods = ['POST'])
 # @login_required ADD THIS BACK IN BY UNCOMMENTING
 def profile():
-
-    moodscore_history = Moodscores.query.filter_by(user_id=current_user.id).all()
+    user = request.json['user_id']
+    print(user)
+    moodscore_history = Moodscores.query.filter_by(user_id=1).all()
     json_contents = []
     
     for x in moodscore_history:
