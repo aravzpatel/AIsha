@@ -6,6 +6,7 @@ before_script:
   - python -m nltk.downloader punkt
   - python -m nltk.downloader stopwords
   - python -m nltk.downloader averaged_perceptron_tagger
+  - python -m nltk.downloader wordnet
 # command to install dependencies
 install:
   - pip install -r flask-server/requirements.txt
