@@ -52,19 +52,20 @@ def index():
 
 @app.route("/api/help", methods = ['POST'])
 def my_api_help():
-    user = request.json['user_text']
-    emotion_response = Bot.analyse(Bot(), user)
+    user_text = request.json['user_text']
+    user_id = request.json['user_id']
+    emotion_response = Bot.analyse(Bot(), user_text)
     response = app.response_class(
         response=json.dumps(emotion_response),
         status=200,
         mimetype='application/json'
-  
     )
+
 
     #print(emotion_response['moodscore'])
     # moodscore = {"Anger":0.035714590696088365, "Fear":0.007142911960008929, "Joy":0.9214267340638829, "Sadness":0.03571576328001969}
     moodscore = emotion_response['moodscore']
-    new_moodscore = Moodscores(user_id=current_user.id, date=date.today(), moodscore=moodscore)
+    new_moodscore = Moodscores(user_id=user_id, date=date.today(), moodscore=moodscore)
 
     # add the new user to the database
     db.session.add(new_moodscore)
@@ -75,9 +76,11 @@ def my_api_help():
 @app.route('/profile', methods = ['POST'])
 # @login_required ADD THIS BACK IN BY UNCOMMENTING
 def profile():
-    user = request.json['user_id']
-    print(user)
-    moodscore_history = Moodscores.query.filter_by(user_id=1).all()
+    print(request.json)
+    user_id = request.json['user_id']
+    print("We are in the post request")
+    print(user_id)
+    moodscore_history = Moodscores.query.filter_by(user_id=user_id).all()
     json_contents = []
     
     for x in moodscore_history:
@@ -119,8 +122,8 @@ def login_post():
 
     # if the above check passes, then we know the user has the right credentials
     login_user(user)
-    
-    json_contents = {'error': False, 'data': user.name + " Logged In Successfully"}
+    print(user.id)
+    json_contents = {'error': False, 'data': user.id}
 
     response = app.response_class(
         response=json.dumps(json_contents),
@@ -161,7 +164,9 @@ def signup_post():
     db.session.commit()
     user = User.query.filter_by(email=email).first()
     login_user(user)
-    json_contents = {'error': False, 'data': user.name + " Created Successfully"}
+    print(user.name)
+    print(user.id)
+    json_contents = {'error': False, 'data': user.id}
 
     response = app.response_class(
         response=json.dumps(json_contents),
@@ -171,7 +176,7 @@ def signup_post():
     return response
  
 
-@app.route('/logout')
+@app.route('/logout', methods=['POST'])
 @login_required
 def logout():
     logout_user()

@@ -12,10 +12,12 @@ class App extends React.Component{
 
     this.state = {
       welcome: true,
-      chat: false
+      chat: false,
+      user_id: null
     }
     this.changeWelcome=this.changeWelcome.bind(this)
     this.changeLogin = this.changeLogin.bind(this)
+    this.logOut = this.logOut.bind(this)
   }
 
   changeWelcome(){
@@ -24,9 +26,18 @@ class App extends React.Component{
     })
   }
 
-  changeLogin(){
+  changeLogin(id){
     this.setState({
-      chat:true
+      chat:true,
+      user_id: id
+    })
+  }
+
+  logOut(){
+    this.setState({
+      welcome: true,
+      chat: false,
+      user_id: null,
     })
   }
 
@@ -47,9 +58,17 @@ class App extends React.Component{
     if(this.state.chat===true){
       loginsignup = null;
       chatagent = (
-        <ChatAgent />
+        <ChatAgent user_id={this.state.user_id} logout={this.logOut}/>
       )
     }
+
+    if(this.state.welcome===true){
+      chatagent = null;
+      welcome = (
+        <Welcome onClick={this.changeWelcome} />
+      )
+    }
+
 
     return(
       <Container>
