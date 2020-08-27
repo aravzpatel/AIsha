@@ -3,6 +3,9 @@ python:
   - "3.8"
 before_script: 
   - cd flask-server
+  - python
+  - import nltk
+  - nltk.download('punkt')
 # command to install dependencies
 install:
   - pip install -r flask-server/requirements.txt
