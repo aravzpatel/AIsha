@@ -4,6 +4,7 @@ python:
 before_script: 
   - cd flask-server
   - python -m nltk.downloader punkt
+  - python -m nltk.downloader stopwords
 # command to install dependencies
 install:
   - pip install -r flask-server/requirements.txt
