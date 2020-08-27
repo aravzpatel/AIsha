@@ -12,7 +12,7 @@ class LoginSignUp extends Component {
   constructor(props){
     super(props)
     this.state = {
-      currentView: "signUp",
+      currentView: "logIn",
       name: '',
       password: '',
       email: '',
@@ -50,7 +50,8 @@ class LoginSignUp extends Component {
             error_text: response.data.data
          })
         } else {
-          this.props.success(response.data.user_id)
+          console.log(response.data.data)
+          this.props.success(response.data.data)
         }
     })
     .catch(function (error) {
@@ -78,7 +79,8 @@ class LoginSignUp extends Component {
           error_text: response.data.data
        })
       } else {
-        this.props.success(response.data.user_id)
+        console.log(response.data.data)
+        this.props.success(response.data.data)
       }
     })
     .catch(function (error) {

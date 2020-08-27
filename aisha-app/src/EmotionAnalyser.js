@@ -17,10 +17,12 @@ class EmotionAnalyser extends Component {
   }
 
   componentDidMount() {
+    const user = this.props.user_id
     this._isMounted = true
     var user_input = this.props.previousStep.message
     axios.post('/api/help',{
-      user_text: user_input 
+      user_text: user_input,
+      user_id: user
     })
     .then((response) => {
       if(this._isMounted){

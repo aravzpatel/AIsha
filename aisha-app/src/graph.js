@@ -7,10 +7,16 @@ import { Chart } from "react-charts";
 function Graph(props) { 
 
 function makeSeries(input_data) {
+  var daysDisplayed = 0
+  if(input_data.length > 7){
+    daysDisplayed = 7;
+  } else {
+    daysDisplayed = input_data.length;
+  }
 
 	return [{
       label: 'Fear',
-      data: [...new Array(7)].map((_, i) => {
+      data: [...new Array(daysDisplayed)].map((_, i) => {
         const x = new Date(input_data[i].year, input_data[i].month-1, input_data[i].day);
         const y = input_data[i].moodscore.Fear 
         return {
@@ -21,7 +27,7 @@ function makeSeries(input_data) {
 	},
   {
     label: 'Joy',
-    data: [...new Array(7)].map((_, i) => {
+    data: [...new Array(daysDisplayed)].map((_, i) => {
       const x = new Date(input_data[i].year, input_data[i].month-1, input_data[i].day);
       const y = input_data[i].moodscore.Joy 
       return {
@@ -32,7 +38,7 @@ function makeSeries(input_data) {
 	},
 	{
     label: 'Anger',
-    data: [...new Array(7)].map((_, i) => {
+    data: [...new Array(daysDisplayed)].map((_, i) => {
       const x = new Date(input_data[i].year, input_data[i].month-1, input_data[i].day);
       const y = input_data[i].moodscore.Anger 
       return {
@@ -43,7 +49,7 @@ function makeSeries(input_data) {
   },
 	{
     label: 'Sadness',
-    data: [...new Array(7)].map((_, i) => {
+    data: [...new Array(daysDisplayed)].map((_, i) => {
       const x = new Date(input_data[i].year, input_data[i].month-1, input_data[i].day);
       const y = input_data[i].moodscore.Sadness 
       return {

@@ -11,13 +11,14 @@ class ChatAgent extends React.Component{
   constructor(props){
     super(props)
 
-    this.state={
-      user_id: 1
-    }
+    // this.state={
+    //   user_id: 1
+    // }
   }
   
   render(){
-    console.log(this.props)
+    console.log(this.props.user_id)
+
     const theme =  {
       background: '#f5f8fb',
       fontFamily: 'Sans Serif',
@@ -61,7 +62,7 @@ class ChatAgent extends React.Component{
               },
               {
                 id: '4',
-                component: <EmotionAnalyser user_id={this.state.user_id} />,
+                component: <EmotionAnalyser user_id={this.props.user_id} />,
                 waitAction: true,
                 asMessage: true, /*is a component*/
                 trigger: '5',
@@ -74,7 +75,7 @@ class ChatAgent extends React.Component{
               },
               {
                 id: '6',
-                component: <GraphBuilder user_id={this.state.user_id}/>,
+                component: <GraphBuilder user_id={this.props.user_id}/>,
                 waitAction: true,
                 asMessage: false, /*is a component*/
                 trigger: '7',
