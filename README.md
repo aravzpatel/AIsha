@@ -6,6 +6,7 @@
 * ``npm run eject`` - maybe not as part of setup?
 * `npm run build`
 Git commit for final file structure pre-REACT
+hello
 
 https://blog.learningdollars.com/2019/11/29/how-to-serve-a-reactapp-with-a-flask-server/
 
