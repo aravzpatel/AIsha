@@ -50,7 +50,7 @@ class LoginSignUp extends Component {
             error_text: response.data.data
          })
         } else {
-          // *********************CODE FOR SUCCESSFUL SIGNUP ****************
+          this.props.success()
         }
     })
     .catch(function (error) {
@@ -78,7 +78,7 @@ class LoginSignUp extends Component {
           error_text: response.data.data
        })
       } else {
-        // *********************CODE FOR SUCCESSFUL LOGIN ****************
+        this.props.success()
       }
     })
     .catch(function (error) {
@@ -170,4 +170,4 @@ class LoginSignUp extends Component {
   }
 }
 
-ReactDOM.render(<LoginSignUp/>, document.getElementById("app"))
+export default LoginSignUp

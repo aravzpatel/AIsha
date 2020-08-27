@@ -5,6 +5,7 @@ import axios from 'axios';
 
 
 class EmotionAnalyser extends Component {
+  _isMounted = false;
   constructor(props) {
     super(props);
 
@@ -16,22 +17,32 @@ class EmotionAnalyser extends Component {
   }
 
   componentDidMount() {
+    this._isMounted = true
     var user_input = this.props.previousStep.message
-    axios.post('/api/help',{
+    axios.post('http://127.0.0.1:5000/api/help',{
       user_text: user_input 
     })
     .then((response) => {
-      this.setState({
-        loading: false, 
-        result: response.data['bot_response'],
-        trigger: true
-      }, ()=> {
-        this.props.triggerNextStep()
-      })
+      if(this._isMounted){
+        console.log("We're inside the response")
+        console.log("We're about to setState")
+        this.setState({
+          loading: false, 
+          result: response.data['bot_response'],
+          trigger: true
+        }, ()=> {
+            this.props.triggerNextStep()
+        })
+      }
     })
     .catch(function (error) {
       console.log(error);
     });
+  }
+
+  componentWillUnmount(){
+    console.log("We're about to componentWillUnmount")
+    this._isMounted = false;
   }
 
   render() {
