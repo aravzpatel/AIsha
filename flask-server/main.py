@@ -4,24 +4,17 @@ from flask_login import login_required, current_user, login_user, logout_user, L
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_sqlalchemy import SQLAlchemy
 from datetime import date
+from flask_cors import CORS
 
-# POSTGRES = {
-#     'user': 'makersadmin',
-#     'pw': 'Admin@Makers',
-#     'db': 'aisha_test',
-#     'host': 'localhost',
-#     'port': '5432',
-# }
 
 app = Flask(__name__)
+CORS(app)
 
 app.config['DEBUG'] = True
 
 app.config['SECRET_KEY'] = '9OLWxND4o83j4K4iuopO'
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://hzlkhsyj:qyEtuquP76Rh_nRn16uXpf2xsiv0WkvQ@dumbo.db.elephantsql.com:5432/hzlkhsyj'
-# app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://%(user)s:\
-# %(pw)s@%(host)s:%(port)s/%(db)s' % POSTGRES
 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy()
@@ -60,18 +53,18 @@ def index():
 @app.route("/api/help", methods = ['POST'])
 def my_api_help():
     user = request.json['user_text']
-    bot_response = Bot.analyse(Bot(), user)
+    emotion_response = Bot.analyse(Bot(), user)
     response = app.response_class(
-        response=json.dumps(bot_response),
+        response=json.dumps(emotion_response),
         status=200,
         mimetype='application/json'
   
     )
-    # print(current_user.id)
 
-    moodscore = {"Anger":0.035714590696088365, "Fear":0.007142911960008929, "Joy":0.9214267340638829, "Sadness":0.03571576328001969}
-
-    new_moodscore = Moodscores(user_id=current_user.id, date=date.today(), moodscore=moodscore)
+    print(emotion_response['moodscore'])
+    # moodscore = {"Anger":0.035714590696088365, "Fear":0.007142911960008929, "Joy":0.9214267340638829, "Sadness":0.03571576328001969}
+    moodscore = emotion_response['moodscore']
+    new_moodscore = Moodscores(user_id=1, date=date.today(), moodscore=moodscore)
 
     # add the new user to the database
     db.session.add(new_moodscore)
@@ -80,9 +73,24 @@ def my_api_help():
     return response
 
 @app.route('/profile')
-@login_required
+# @login_required ADD THIS BACK IN BY UNCOMMENTING
 def profile():
-    return render_template('profile.html', name=current_user.name)
+    moodscore_history = Moodscores.query.filter_by(user_id=1).all()
+    json_contents = []
+
+    for x in moodscore_history:
+        obj_contents = {'day': x.date.day, 'month': x.date.month, 'year': x.date.year, 'moodscore': x.moodscore}
+        json_contents.append(obj_contents)
+
+    # json_contents = {'error': True, 'data':'Please check your login details and try again.'}
+    response = app.response_class(
+            response=json.dumps(json_contents),
+            status=200,
+            mimetype='application/json'
+        )
+    return response
+    
+    #return render_template('profile.html', name="stu"")
 
 @app.route('/login')
 def login():
@@ -91,21 +99,34 @@ def login():
 
 @app.route('/login', methods=['POST'])
 def login_post():
-    email = request.form.get('email')
-    password = request.form.get('password')
-    remember = True if request.form.get('remember') else False
 
+    email = request.json['email']
+    password = request.json['password']
     user = User.query.filter_by(email=email).first()
     
     # check if user actually exists
     # take the user supplied password, hash it, and compare it to the hashed password in database
     if not user or not check_password_hash(user.password, password): 
-        flash('Please check your login details and try again.')
-        return redirect(url_for('login')) # if user doesn't exist or password is wrong, reload the page
+        # flash('Please check your login details and try again.')
+        # return redirect(url_for('login')) # if user doesn't exist or password is wrong, reload the page
+        json_contents = {'error': True, 'data':'Please check your login details and try again.'}
+        response = app.response_class(
+            response=json.dumps(json_contents),
+            status=200,
+            mimetype='application/json'
+        )
+        return response
 
     # if the above check passes, then we know the user has the right credentials
     login_user(user)
-    return redirect(url_for('profile')) #NEEDS TO REDIRECT TO CHAT WINDOW (INDEX.HTML)
+    json_contents = {'error': False, 'data': user.name + " Logged In Successfully"}
+
+    response = app.response_class(
+        response=json.dumps(json_contents),
+        status=200,
+        mimetype='application/json'
+    )
+    return response
 
 @app.route('/signup')
 def signup():
@@ -114,15 +135,23 @@ def signup():
 @app.route('/signup', methods=['POST'])
 def signup_post():
 
-    email = request.form.get('email')
-    name = request.form.get('name')
-    password = request.form.get('password')
+    name = request.json['name']
+    email = request.json['email']
+    password = request.json['password']
 
+    print(name)
     user = User.query.filter_by(email=email).first() # if this returns a user, then the email already exists in database
 
     if user: # if a user is found, we want to redirect back to signup page so user can try again  
         flash('Email address already exists')
-        return redirect(url_for('signup'))
+        # return redirect(url_for('signup'))
+        json_contents = {'error': True, 'data':'Email address already exists'}
+        response = app.response_class(
+            response=json.dumps(json_contents),
+            status=200,
+            mimetype='application/json'
+        )
+        return response
 
     # create new user with the form data. Hash the password so plaintext version isn't saved.
     new_user = User(email=email, name=name, password=generate_password_hash(password, method='sha256'))
@@ -132,7 +161,15 @@ def signup_post():
     db.session.commit()
     user = User.query.filter_by(email=email).first()
     login_user(user)
-    return redirect(url_for('profile'))
+    json_contents = {'error': False, 'data': user.name + " Created Successfully"}
+
+    response = app.response_class(
+        response=json.dumps(json_contents),
+        status=200,
+        mimetype='application/json'
+    )
+    return response
+ 
 
 @app.route('/logout')
 @login_required
@@ -140,7 +177,6 @@ def logout():
     logout_user()
     return redirect(url_for('index'))
 
-# app.run(debug=True)
 
 if __name__ == '__main__':
     app.run()
