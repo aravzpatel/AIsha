@@ -121,7 +121,8 @@ def login_post():
 
     # if the above check passes, then we know the user has the right credentials
     login_user(user)
-    json_contents = {'error': False, 'data': user.name + " Logged In Successfully"}
+    print(user.id)
+    json_contents = {'error': False, 'data': user.id}
 
     response = app.response_class(
         response=json.dumps(json_contents),
@@ -163,7 +164,9 @@ def signup_post():
     db.session.commit()
     user = User.query.filter_by(email=email).first()
     login_user(user)
-    json_contents = {'error': False, 'data': user.name + " Created Successfully"}
+    print(user.name)
+    print(user.id)
+    json_contents = {'error': False, 'data': user.id}
 
     response = app.response_class(
         response=json.dumps(json_contents),

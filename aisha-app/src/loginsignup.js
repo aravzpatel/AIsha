@@ -50,7 +50,7 @@ class LoginSignUp extends Component {
             error_text: response.data.data
          })
         } else {
-          this.props.success()
+          this.props.success(response.data.user_id)
         }
     })
     .catch(function (error) {
@@ -78,7 +78,7 @@ class LoginSignUp extends Component {
           error_text: response.data.data
        })
       } else {
-        this.props.success()
+        this.props.success(response.data.user_id)
       }
     })
     .catch(function (error) {

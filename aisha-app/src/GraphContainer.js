@@ -2,9 +2,10 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import ChatBot, { Loading } from 'react-simple-chatbot';
 import axios from 'axios';
+import Graph from './graph'
 
 
-class EmotionAnalyser extends Component {
+class GraphBuilder extends Component {
   _isMounted = false;
   constructor(props) {
     super(props);
@@ -18,19 +19,19 @@ class EmotionAnalyser extends Component {
 
   componentDidMount() {
     this._isMounted = true
+    const user = this.props.user_id
     var user_input = this.props.previousStep.message
-    axios.post('/api/help',{
-      user_text: user_input 
+    axios.post('http://127.0.0.1:5000/profile',{
+      user_id: user
     })
     .then((response) => {
       if(this._isMounted){
-        console.log("We're inside the response")
-        console.log("We're about to setState")
         this.setState({
           loading: false, 
-          result: response.data['bot_response'],
+          result: response.data,
           trigger: true
         }, ()=> {
+            console.log(this.state.result)
             this.props.triggerNextStep()
         })
       }
@@ -41,7 +42,6 @@ class EmotionAnalyser extends Component {
   }
 
   componentWillUnmount(){
-    console.log("We're about to componentWillUnmount")
     this._isMounted = false;
   }
 
@@ -49,21 +49,21 @@ class EmotionAnalyser extends Component {
     const { trigger, loading, result } = this.state;
 
     return (
-      <div className="dbpedia">
-        { loading ? <Loading /> : result }
+      <div className="graphcontainer">
+        { loading ? <Loading /> : <Graph data={this.state.result} /> }
       </div>
     );
   }
 }
 
-EmotionAnalyser.propTypes = {
+GraphBuilder.propTypes = {
   steps: PropTypes.object,
   triggerNextStep: PropTypes.func,
 };
 
-EmotionAnalyser.defaultProps = {
+GraphBuilder.defaultProps = {
   steps: undefined,
   triggerNextStep: undefined,
 };
 
-export default EmotionAnalyser
+export default GraphBuilder

@@ -4,16 +4,20 @@ import ChatBot, { Loading } from 'react-simple-chatbot';
 import EmotionAnalyser from './EmotionAnalyser'
 import WelcomeImage from './Intersect.svg'
 import {ThemeProvider} from 'styled-components'
+import GraphBuilder from './GraphContainer'
 
 
 class ChatAgent extends React.Component{
   constructor(props){
     super(props)
 
-
+    this.state={
+      user_id: 1
+    }
   }
   
   render(){
+    console.log(this.props)
     const theme =  {
       background: '#f5f8fb',
       fontFamily: 'Sans Serif',
@@ -57,7 +61,7 @@ class ChatAgent extends React.Component{
               },
               {
                 id: '4',
-                component: <EmotionAnalyser />,
+                component: <EmotionAnalyser user_id={this.state.user_id} />,
                 waitAction: true,
                 asMessage: true, /*is a component*/
                 trigger: '5',
@@ -66,7 +70,19 @@ class ChatAgent extends React.Component{
                 id: '5',
                 message: ({steps}) =>
                   `Thanks for telling me, son`,
-                end: true
+                trigger: '6'
+              },
+              {
+                id: '6',
+                component: <GraphBuilder user_id={this.state.user_id}/>,
+                waitAction: true,
+                asMessage: false, /*is a component*/
+                trigger: '7',
+              },
+              {
+                id: '7',
+                message: 'Now stop',
+                end: true,
               }
             ]}
           />

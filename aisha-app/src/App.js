@@ -12,7 +12,8 @@ class App extends React.Component{
 
     this.state = {
       welcome: true,
-      chat: false
+      chat: false,
+      user_id: null
     }
     this.changeWelcome=this.changeWelcome.bind(this)
     this.changeLogin = this.changeLogin.bind(this)
@@ -24,9 +25,10 @@ class App extends React.Component{
     })
   }
 
-  changeLogin(){
+  changeLogin(id){
     this.setState({
-      chat:true
+      chat:true,
+      user_id: id
     })
   }
 
@@ -47,7 +49,7 @@ class App extends React.Component{
     if(this.state.chat===true){
       loginsignup = null;
       chatagent = (
-        <ChatAgent />
+        <ChatAgent user_id={this.state.user_id}/>
       )
     }
 
