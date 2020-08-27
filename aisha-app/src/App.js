@@ -35,7 +35,9 @@ class App extends React.Component{
 
   logOut(){
     this.setState({
-      welcome: true
+      welcome: true,
+      chat: false,
+      user_id: null,
     })
   }
 

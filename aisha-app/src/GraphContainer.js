@@ -21,7 +21,7 @@ class GraphBuilder extends Component {
     this._isMounted = true
     const user = this.props.user_id /*this collects the user_id so sub this into the post request for 1*/
     var user_input = this.props.previousStep.message
-    axios.post('http://127.0.0.1:5000/profile',{
+    axios.post('/profile',{
       user_id: user
     })
     .then((response) => {
