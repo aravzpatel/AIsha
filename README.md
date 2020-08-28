@@ -22,13 +22,11 @@ As AISHA is used over a period of time, this chart begins to paint a picture of 
 
 With AISHA by your side, you too can learn to better understand your mind, gain greater self-awareness, and ultimately take action.
 
-- (We keep track of daily thoughts and events that you tell us about, thus helping you uncover what events and thoughts might be influencing your daily mood)
+- We keep track of daily thoughts and events that you tell us about, thus helping you uncover what events and thoughts might be influencing your daily mood
 
 - By gaining greater awareness of this, you can decipher what activities make you feel joy, sadness, fear or anger, and learn how important positive vs negative thoughts are in maintaining your mental health. 
 
 - Can be helpful alongside therapy to keep a record of how your past week went so you know what to discuss with your therapist.
-
-Smallprint: We are a bunch of bootcamp developers with no mental health qualifications between us. Use this app with caution as emotional scores may not be 100% accurate and AISHA may go off on a tangent.
 
 ```
 Example: 
@@ -36,15 +34,14 @@ AISHA: How are you feeling today?
 User: I had no energy and felt snappy quite a lot.
 AISHA: Your overriding emotion today is that of anger. 
 AISHA: Can you list any events or thoughts you had recently that might have influenced this?
-User: Stayed up til 2am. Didn't eat breakfast. Met my Mum and she said I wouldn't amount to anything. 
+User: Stayed up til 2am. Didn't eat breakfast. 
 AISHA: Sorry to hear that! We'll keep this stored for you. You are on the path to greater self-awareness!
-Action/Insight: Stop seeing your Mum. Go to bed earlier. Eat breakfast!
+Action/Insight: Go to bed earlier. Eat breakfast!
 ```
 
 ## AIsha is built on the following:
 
 * React
-* React Simple Chatbot
 * Flask
 * Python 
 * [Isear dataset](https://www.unige.ch/cisa/research/materials-and-online-research/research-material/) for emotional analysis and machine training
