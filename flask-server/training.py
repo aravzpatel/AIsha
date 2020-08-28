@@ -8,6 +8,8 @@ from nltk.tokenize import word_tokenize
 from datetime import datetime
 from types import SimpleNamespace
 import json
+from nltk import everygrams
+import pickle
 
 class Analysis:
   def lemmatize_sentence(tokens):
@@ -64,17 +66,31 @@ class Analysis:
           for token in tokens:
               yield token
 
-  def get_tokens_for_model(self, cleaned_tokens_list):
-      for tokens in cleaned_tokens_list:
+  def get_tokens_for_model(self, cleaned_tokens_list, n=2):
+    for tokens in cleaned_tokens_list:
+      ngram_vocab = everygrams(tokens, 1, n)
+      yield dict([ng, True] for ng in ngram_vocab)
+
+    # ngram_vocab = ngrams(cleaned_tokens_list, n)
+    # for tokens in ngram_vocab:
+    #   yield dict([token, True] for token in tokens)
+
+      # for tokens in cleaned_tokens_list:
+      #     ngrams = dict([token, True] for token in tokens + ngrams(tokens, 1))
+      #     return ngrams
+
+  def get_ngrams_for_model(self, cleaned_tokens_list, n=4):
+    ngram_vocab = ngrams(cleaned_tokens_list, n)
+    for tokens in ngram_vocab:
           yield dict([token, True] for token in tokens)
-  
+
   def create_tokens(self, raw_csv, output_token):
       with raw_csv as csvfile:
         reader = csv.reader(csvfile)
         for row in reader:
           output_token += [nltk.word_tokenize(row[0])]
 
-  def process_data():
+  def process_data(self):
     joy = open('./emotions/joy.csv', 'r')
     anger = open('./emotions/anger.csv', 'r')
     sadness = open('./emotions/sadness.csv', 'r')
@@ -127,31 +143,33 @@ class Analysis:
     
     dataset = joy_dataset + anger_dataset + sadness_dataset + fear_dataset
 
-    with open('data.txt', 'w') as outfile:
-        json.dump(dataset, outfile)
+    with open('data.pickle', 'wb') as f:
+      pickle.dump(dataset,f)
+
+    random.shuffle(dataset)
   
   @staticmethod
   def get_emotion(self, message):
-    with open('data.txt') as json_file:
-        dataset = json.load(json_file)
+    with open('shuffled_data.pickle', 'rb') as f:
+        dataset = pickle.load(f)
 
-        random.shuffle(dataset)
-
-        train_data = dataset[:3067]
-        test_data = dataset[3067:]
+    train_data = dataset[:3067]
+    test_data = dataset[3067:]
     
-        classifier = NaiveBayesClassifier.train(train_data)
+    classifier = NaiveBayesClassifier.train(train_data)
 
-        custom_tokens = self.remove_noise(word_tokenize(message))
+    custom_tokens = self.remove_noise(word_tokenize(message))
 
-        score = classifier.prob_classify(dict([token, True] for token in custom_tokens))
+    custom_ngram = everygrams(custom_tokens, 1, 4)
 
-        score.percentages = SimpleNamespace()
-        for label in score.samples():
-            setattr(score.percentages, label, score.prob(label))
+    score = classifier.prob_classify(dict([token, True] for token in custom_ngram))
+
+    score.percentages = SimpleNamespace()
+    for label in score.samples():
+        setattr(score.percentages, label, score.prob(label))
     
-        print(nltk.classify.accuracy(classifier, test_data))
+    print(nltk.classify.accuracy(classifier, test_data))
 
-        print(score.percentages)
+    print(score.percentages)
     
-        return score.percentages
+    return score.percentages
