@@ -10,9 +10,9 @@
 
 [Joanne Chen](https://github.com/Joanne0330)
 
-Olivia Herbert (UI Design)
+Olivia Herbert: UI Design
 
-** App Description**
+## App Description**
 
 AISHA uses Artificial Intelligence to help people uncover, understand and monitor their emotional health. 
 How does it work?
@@ -33,18 +33,27 @@ Smallprint: We are a bunch of bootcamp developers with no mental health qualific
 ```
 Example: 
 AISHA: How are you feeling today?
+
 User: I had no energy and felt snappy quite a lot.
+
 AISHA: Your overriding emotion today is that of anger. 
+
 AISHA: Can you list any events or thoughts you had recently that might have influenced this?
 User: Stayed up til 2am. Didn't eat breakfast. Met my Mum and she said I wouldn't amount to anything. 
+
 AISHA: Sorry to hear that! We'll keep this stored for you. You are on the path to greater self-awareness!
+
 Action/Insight: Stop seeing your Mum. Go to bed earlier. Eat breakfast!
+```
+## Running the app on Heroku:
+
+```
+http://projectaishal.herokuapp.com
 ```
 
 ## AIsha is built on the following:
 
 * React
-* React Simple Chatbot
 * Flask
 * Python 
 * [Isear dataset](https://www.unige.ch/cisa/research/materials-and-online-research/research-material/) for emotional analysis and machine training
