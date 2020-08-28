@@ -16,9 +16,11 @@ body{
 }
 
 .img-fluid{
-  margin-left: 10%;
-  width: 80%;
+  width: 50%;
   vertical-align: middle;
+  max-width: 400px;
+  margin-left: 25%;
+  margin-right: 25%;
 }
 
 .welcome-message{
