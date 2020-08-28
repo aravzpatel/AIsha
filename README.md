@@ -1,3 +1,66 @@
+# AIsha - Artificial Intelligence Self Help App
+
+**Contributors**
+
+[Arav Patel](https://github.com/aravzpatel)  
+
+[Stuart Pitcher](https://github.com/stupot1)
+
+[Alex Klink](https://github.com/04alexklink)
+
+[Joanne Chen](https://github.com/Joanne0330)
+
+Olivia Herbert: UI Design
+
+## App Description**
+
+AISHA uses Artificial Intelligence to help people uncover, understand and monitor their emotional health. 
+How does it work?
+
+Our users tell AISHA how their day is going in a conversational style, allowing AISHA to translate the text provided into an emotional score through the use of machine learning. Each day this score is recorded and helps to build up the users mood history that they can view through their personalised mood chart.
+As AISHA is used over a period of time, this chart begins to paint a picture of how their emotions change, and users can gain insight into what events and thought processes are influencing their feelings. 
+
+With AISHA by your side, you too can learn to better understand your mind, gain greater self-awareness, and ultimately take action.
+
+- We keep track of daily thoughts and events that you tell us about, thus helping you uncover what events and thoughts might be influencing your daily mood
+
+- By gaining greater awareness of this, you can decipher what activities make you feel joy, sadness, fear or anger, and learn how important positive vs negative thoughts are in maintaining your mental health. 
+
+- Can be helpful alongside therapy to keep a record of how your past week went so you know what to discuss with your therapist.
+
+```
+Example: 
+AISHA: How are you feeling today?
+
+User: I had no energy and felt snappy quite a lot.
+
+AISHA: Your overriding emotion today is that of anger. 
+
+AISHA: Can you list any events or thoughts you had recently that might have influenced this?
+
+User: Stayed up til 2am. Didn't eat breakfast. 
+
+AISHA: Sorry to hear that! We'll keep this stored for you. You are on the path to greater self-awareness!
+
+Action/Insight: Go to bed earlier. Eat breakfast!
+
+```
+## Running the app on Heroku:
+
+```
+http://projectaishal.herokuapp.com
+```
+
+## AIsha is built on the following:
+
+* React
+* Flask
+* Python 
+* [Isear dataset](https://www.unige.ch/cisa/research/materials-and-online-research/research-material/) for emotional analysis and machine training
+* PostgresSQL
+
+## Project setup
+
 * `git clone https://github.com/aravzpatel/AIsha.git`
 * `cd Aisha`
 * `npm install -g yarn`
@@ -5,8 +68,21 @@
 * `npm install`
 * ``npm run eject`` - maybe not as part of setup?
 * `npm run build`
-Git commit for final file structure pre-REACT
-hello hello
+
+## To run the app from terminal:
+```
+cd aisha-app
+npm run build
+cd ..
+cd flask-server
+python3 main.py
+```
+
+## To run frontend test:
+```
+cd aisha-app
+npm test
+```
 
 
 https://blog.learningdollars.com/2019/11/29/how-to-serve-a-reactapp-with-a-flask-server/
