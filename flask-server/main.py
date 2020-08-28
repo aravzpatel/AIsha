@@ -81,6 +81,7 @@ def profile():
     print("We are in the post request")
     print(user_id)
     moodscore_history = Moodscores.query.filter_by(user_id=user_id).all()
+    
     json_contents = []
     
     for x in moodscore_history:
