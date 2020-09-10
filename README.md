@@ -48,7 +48,7 @@ Action/Insight: Go to bed earlier. Eat breakfast!
 ## Running the app on Heroku:
 
 ```
-http://projectaishal.herokuapp.com
+http://projectaisha.herokuapp.com
 ```
 
 ## AIsha is built on the following:
